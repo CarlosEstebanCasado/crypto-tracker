@@ -6,18 +6,40 @@ import Coin from './Coin';
 function App() {
   const [coins,setCoins] = useState([]);
   const [search, setSearch] = useState('');
+  const [supportedCurrencies, setSupportedCurrencies] = useState([]);
+  const [actualCurrency, setCurrency] = useState('usd');
 
   useEffect(() => {
-    axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+    //Get supported currencies
+    axios.get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies')
+    .then(res => {
+      setSupportedCurrencies(res.data);
+      console.log(res.data);
+    })
+    .catch(error => console.log(error))
+
+    axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${actualCurrency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
       .then(res => {
         setCoins(res.data);
+        console.log(res.data);
       })
       .catch(error => console.log(error));
-  })
+  },[actualCurrency]);
 
-  const handleChange = e => {
+  const handleChangeCurrency = e => {
+    setCurrency(e.target.value);
+  }
+
+  const handleChangeSearch = e => {
     setSearch(e.target.value);
   }
+
+  const realCurrency = ['eur','usd','jpy'];
+
+  const filteredCurrency = supportedCurrencies.filter(currency => {
+    return realCurrency.includes(currency);
+  })
+  console.log(filteredCurrency);
 
   const filteredCoins = coins.filter(coin => {
     return coin.name.toLowerCase().includes(search.toLocaleLowerCase());
@@ -28,11 +50,26 @@ function App() {
       <div className="coin-search">
         <h1 className="coin-text">Search a currency</h1>
         <form>
+          <select 
+            value={actualCurrency}
+            onChange={handleChangeCurrency}
+          >
+            {filteredCurrency.map((currency, i) => {
+              return(
+                <option 
+                  key={i} 
+                  value={currency} 
+                >
+                  {currency}
+                </option>
+              );
+            })}
+          </select>
           <input 
             type="text" 
             placeholder="Search" 
             className="coin-input"
-            onChange={handleChange}
+            onChange={handleChangeSearch}
           />
         </form>
       </div>
