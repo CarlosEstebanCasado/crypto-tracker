@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="coin-app">
       <div className="coin-search">
-        <h1 className="coin-text">Cryptocurrency comparation</h1>
+        <h1 className="coin-text">Top 100 Coins by Market Capitalization</h1>
         <form className="coin-form">
           <label> Select a currency:</label>
           <select 
