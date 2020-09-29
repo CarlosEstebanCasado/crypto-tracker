@@ -34,7 +34,7 @@ function App() {
     setSearch(e.target.value);
   }
 
-  const realCurrency = ['eur','usd','jpy'];
+  const realCurrency = ['eur','usd','jpy','gbp','aud','inr','cad','sgd','ars','chf','hkd','mxn'];
 
   const filteredCurrency = supportedCurrencies.filter(currency => {
     return realCurrency.includes(currency);
@@ -48,23 +48,26 @@ function App() {
   return (
     <div className="coin-app">
       <div className="coin-search">
-        <h1 className="coin-text">Search a currency</h1>
-        <form>
+        <h1 className="coin-text">Cryptocurrency comparation</h1>
+        <form className="coin-form">
+          <label> Select a currency:</label>
           <select 
             value={actualCurrency}
             onChange={handleChangeCurrency}
+            className="coin-input"
           >
             {filteredCurrency.map((currency, i) => {
               return(
                 <option 
                   key={i} 
-                  value={currency} 
+                  value={currency}
                 >
                   {currency}
                 </option>
               );
             })}
           </select>
+          <label>Search a Cryptocurrency</label>
           <input 
             type="text" 
             placeholder="Search" 
