@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import './App.css';
 import Coin from './Coin';
+import coinLogo from './dollar.svg';
 
 function App() {
   const [coins,setCoins] = useState([]);
@@ -76,6 +77,21 @@ function App() {
           />
         </form>
       </div>
+      <div className="coin-container">
+            <div className="coin-row">
+                <div className="coin">
+                <img src={coinLogo} alt="crypto" />
+                    <h1>Coin</h1>
+                    <p className="coin-symbol"></p>
+                </div>
+                <div className="coin-data">
+                    <p className="coin-price">Price</p>
+                    <p className="coin-volume">24h Volume</p> 
+                    <p className="coin-percent">24h</p>
+                    <p className="coin-marketcap">Mkt Cap</p>
+                </div>
+            </div>
+        </div>
       {filteredCoins.map(coin => {
         return(
           <Coin 
